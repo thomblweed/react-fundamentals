@@ -11,14 +11,33 @@
 
     // 🐨 use that function in place of the divs below with:
     // 💰 {message({children: 'Hello World'})} {message({children: 'Goodbye World'})}
+
+    // babel actually requires all components to be named with the starting character as capital letter,
+    // or it will NOT compile,
+    // although propercase is the preferred naming convention
+    const Message = ({message}) => <div className="message">{message}</div>
+
+    // react references this propTypes object when it renders the component
+    // we can actually use this to write our own props validation (although most will just use the 'prop-types' validator package you can find on npm)
+    // NOTE: this only applies in none production mode, so if you have a production minified version of react running
+    // such as https://unpkg.com/react@18.1.0/umd/react.production.min.js
+    // this propTypes object will NOT be used
+    Message.propTypes = {
+      message(props, propName, componentName) {
+        const messageProp = props[propName]
+        if (messageProp === 'message' && typeof messageProp !== 'string') {
+          throw new Error(`${propName} is not a string type`)
+        }
+      },
+    }
+
     const element = (
       <div className="container">
-        <div className="message">Hello World</div>
-        <div className="message">Goodbye World</div>
+        {React.createElement(Message, {message: 'Hello World'})}
+        <Message message="Goodbye World" />
       </div>
     )
 
-    // 💯 This is only the first step to making actual React components. The rest is in the extra credit!
     ReactDOM.createRoot(document.getElementById('root')).render(element)
   </script>
 </body>
