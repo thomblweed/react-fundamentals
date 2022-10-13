@@ -48,10 +48,10 @@ function UsernameForm({onSubmitUsername}) {
           onChange={handleInputChange}
         />
       </div>
+      {error && <div style={{color: 'red'}}>{error}</div>}
       <button type="submit" disabled={!!error}>
         Submit
       </button>
-      {error && <div>{error}</div>}
     </form>
   )
 }
